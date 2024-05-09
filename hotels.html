@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hotel Search</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+</head>
+<body>
+
+<div data-role="page" id="homePage">
+    <div data-role="header">
+        <h1>Hotel Search</h1>
+    </div>
+
+    <div data-role="content">
+        <form id="searchForm">
+            <label for="location">Location:</label>
+            <input type="text" name="location" id="location" placeholder="Enter location">
+
+            <label for="checkIn">Check-In Date:</label>
+            <input type="date" name="checkIn" id="checkIn">
+
+            <label for="checkOut">Check-Out Date:</label>
+            <input type="date" name="checkOut" id="checkOut">
+
+            <label for="guests">Number of Guests:</label>
+            <input type="number" name="guests" id="guests" min="1">
+
+            <button type="submit">Search</button>
+        </form>
+
+        <ul data-role="listview" data-inset="true" id="searchResults">
+            <!-- Search results will be dynamically populated here -->
+        </ul>
+    </div>
+</div>
+
+<div data-role="page" id="hotelDetails">
+    <div data-role="header">
+        <a href="#" data-rel="back" class="ui-btn ui-icon-back ui-btn-icon-notext ui-corner-all">Back</a>
+        <h1>Hotel Details</h1>
+    </div>
+
+    <div data-role="content" id="hotelDetailsContent">
+        <!-- Hotel details will be dynamically populated here -->
+    </div>
+</div>
+
+<script>
+    $(document).on("pagecreate", "#homePage", function() {
+        $("#searchForm").submit(function(event) {
+            event.preventDefault();
+            
+            // Fetch search parameters
+            var location = $("#location").val();
+            var checkIn = $("#checkIn").val();
+            var checkOut = $("#checkOut").val();
+            var guests = $("#guests").val();
+            
+            // Simulate search results (you would replace this with actual API call)
+            var searchResults = [
+                { name: "Hotel 1", location: "Location 1", price: "$100", rating: "4.5" },
+                { name: "Hotel 2", location: "Location 2", price: "$120", rating: "4.2" },
+                { name: "Hotel 3", location: "Location 3", price: "$150", rating: "4.8" }
+            ];
+
+            // Clear previous search results
+            $("#searchResults").empty();
+
+            // Display search results
+            $.each(searchResults, function(index, hotel) {
+                $("#searchResults").append('<li><a href="#hotelDetails" data-transition="slide"><h2>' + hotel.name + '</h2><p>' + hotel.location + '</p></a></li>');
+            });
+
+            // Refresh listview
+            $("#searchResults").listview("refresh");
+        });
+    });
+
+    // Show hotel details when a search result is clicked
+    $(document).on("click", "#searchResults li a", function() {
+        var hotelName = $(this).find("h2").text();
+        // Simulated hotel details (you would replace this with actual data retrieval)
+        var hotelDetails = {
+            name: hotelName,
+            location: "Location",
+            price: "$100",
+            rating: "4.5",
+            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam gravida ex eget metus dapibus, eu varius est faucibus."
+        };
+        // Populate hotel details page
+        $("#hotelDetailsContent").html('<h2>' + hotelDetails.name + '</h2><p><strong>Location:</strong> ' + hotelDetails.location + '</p><p><strong>Price:</strong> ' + hotelDetails.price + '</p><p><strong>Rating:</strong> ' + hotelDetails.rating + '</p><p><strong>Description:</strong> ' + hotelDetails.description + '</p>');
+    });
+</script>
+
+</body>
+</html>
